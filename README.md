@@ -28,6 +28,7 @@ scripts/install.sh        Asentaa/päivittää kaiken
 scripts/start-mm.sh       Käynnistää peilin (ajetaan automaattisesti)
 scripts/screen.sh         Näyttö päälle/pois + pystykierto
 scripts/pir-watch.sh      Lukee liiketunnistinta
+scripts/hsl-pysakit.sh    Hakee HSL-pysäkkien tunnukset pysäkkikoodeista
 ```
 
 `install.sh` linkittää `config.js`, `custom.css` ja `config.env` tiedostot
@@ -67,11 +68,15 @@ Asennus kestää Pi 3:lla noin 15–30 minuuttia.
    ```
    HSL_APIKEY=avaimesi-tähän
    ```
-3. Etsi pysäkki osoitteesta <https://reittiopas.hsl.fi>. Kun avaat pysäkin,
-   osoiterivillä näkyy esim. `.../pysakit/HSL:1130113`. Numero `1130113`
-   on pysäkin tunnus.
-4. Lisää tunnus `config/config.js`-tiedostoon kohtaan `stops`. Pysäkkejä voi olla
-   useita:
+3. Moduuli tarvitsee pysäkin **tunnuksen** (esim. `1130113`), ei pysäkkikoodia
+   (esim. `H3486`). Hae tunnukset pysäkkikoodeista:
+   ```bash
+   ~/ggashion/scripts/hsl-pysakit.sh H3486 H3529 H4534
+   ```
+   Skripti tulostaa rivit, jotka voi liittää suoraan. Tunnuksen näkee myös
+   [Reittioppaasta](https://reittiopas.hsl.fi): avaa pysäkki, ja osoiterivillä
+   näkyy esim. `.../pysakit/HSL:1130113`.
+4. Lisää tunnukset `config/config.js`-tiedostoon kohtaan `stops`:
    ```js
    stops: [
    	{ id: 1130113 },
@@ -90,16 +95,19 @@ klikkaamalla karttaa hiiren oikealla.
 
 ## 5. Urheilutulokset
 
-Urheilutulokset eivät tarvitse API-avainta. Valitse `config.js`-tiedostossa
-kohtaan `sports` liigat ja joukkueet. Liigojen nimet ja joukkueiden koodit löytyvät
-[moduulin README:stä](https://github.com/dathbe/MMM-MyScoreboard#available-leagues).
+Urheilutulokset eivät tarvitse API-avainta. Peili näyttää La Ligan, Valioliigan ja
+Mestarien liigan kaikki päivän ottelut. Jos haluat nähdä vain suosikkijoukkueet,
+lisää liigalle `teams`-lista `config.js`:ssä:
 
 ```js
 sports: [
-	{ league: "NHL", teams: ["FLA", "NSH"] },
-	{ league: "English Premier League", teams: ["LIV"] }
+	{ league: "ESP_LALIGA", label: "La Liga", teams: ["BAR", "RMA"] },
+	{ league: "English Premier League", label: "Valioliiga", teams: ["LIV"] },
+	{ league: "UEFA_CHAMPIONS", label: "Mestarien liiga" }
 ]
 ```
+
+Muut liigat löytyvät [moduulin README:stä](https://github.com/dathbe/MMM-MyScoreboard#available-leagues).
 
 Moduuli hakee tiedot ESPN:stä, eikä Liiga tai Veikkausliiga ole mukana.
 

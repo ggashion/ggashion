@@ -41,7 +41,7 @@ let config = {
 			config: {
 				weatherProvider: "openmeteo",
 				type: "current",
-				// Helsinki – vaihda omiin koordinaatteihin
+				// Helsinki
 				lat: 60.1699,
 				lon: 24.9384
 			}
@@ -59,33 +59,40 @@ let config = {
 		},
 		{
 			// HSL-aikataulut: https://github.com/ZakarFin/mm-hsl-timetable
-			// Pysäkin numero löytyy Reittioppaasta: avaa pysäkki osoitteessa
-			// https://reittiopas.hsl.fi ja katso osoiteriviltä "HSL:1130113" -> 1130113
+			// Moduuli tarvitsee pysäkin tunnuksen, ei pysäkkikoodia (H1234).
+			// Tunnukset saa komennolla: scripts/hsl-pysakit.sh H3486 H3529 H4534
 			module: "mm-hsl-timetable",
 			position: "middle_center",
 			header: "Lähtevät",
 			config: {
 				apikey: "${HSL_APIKEY}",
 				busCount: 5,
+				// minutesFrom piilottaa lähdöt, joihin ei enää ehdi kävellä, esim.
+				// { id: 1234567, minutesFrom: 3 }
 				stops: [
-					// Esimerkki – vaihda omiin pysäkkeihin.
-					// minutesFrom piilottaa lähdöt, joihin ei enää ehdi kävellä.
-					{ id: 1130113, minutesFrom: 0 }
+					// TODO: korvaa tunnuksilla, jotka hsl-pysakit.sh tulostaa
+					// H3486
+					// H3529
+					// H4534
 				]
 			}
 		},
 		{
 			// Urheilutulokset: https://github.com/dathbe/MMM-MyScoreboard
 			// Liigat ja joukkuekoodit löytyvät moduulin README:stä.
+			// Näyttää liigojen kaikki päivän ottelut. Pelkät suosikkijoukkueet
+			// saa lisäämällä liigalle esim. teams: ["BAR", "RMA"].
 			module: "MMM-MyScoreboard",
 			position: "bottom_right",
 			header: "Tulokset",
 			config: {
-				viewStyle: "stackedWithLogos",
-				showPlayoffStatus: true,
+				viewStyle: "oneLineWithLogos",
+				// Jos otteluita on paljon, lista vierii tämän korkeuden sisällä (px)
+				maxHeight: 400,
 				sports: [
-					// Esimerkki – vaihda omiin liigoihin ja joukkueisiin
-					{ league: "NHL" }
+					{ league: "ESP_LALIGA", label: "La Liga" },
+					{ league: "English Premier League", label: "Valioliiga" },
+					{ league: "UEFA_CHAMPIONS", label: "Mestarien liiga" }
 				]
 			}
 		},
