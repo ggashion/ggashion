@@ -28,7 +28,6 @@ scripts/install.sh        Asentaa/päivittää kaiken
 scripts/start-mm.sh       Käynnistää peilin (ajetaan automaattisesti)
 scripts/screen.sh         Näyttö päälle/pois + pystykierto
 scripts/pir-watch.sh      Lukee liiketunnistinta
-scripts/hsl-pysakit.sh    Hakee HSL-pysäkkien tunnukset pysäkkikoodeista
 ```
 
 `install.sh` linkittää `config.js`, `custom.css` ja `config.env` tiedostot
@@ -69,13 +68,8 @@ Asennus kestää Pi 3:lla noin 15–30 minuuttia.
    HSL_APIKEY=avaimesi-tähän
    ```
 3. Moduuli tarvitsee pysäkin **tunnuksen** (esim. `1130113`), ei pysäkkikoodia
-   (esim. `H3486`). Hae tunnukset pysäkkikoodeista:
-   ```bash
-   ~/ggashion/scripts/hsl-pysakit.sh H3486 H3529 H4534
-   ```
-   Skripti tulostaa rivit, jotka voi liittää suoraan. Tunnuksen näkee myös
-   [Reittioppaasta](https://reittiopas.hsl.fi): avaa pysäkki, ja osoiterivillä
-   näkyy esim. `.../pysakit/HSL:1130113`.
+   (esim. `H3486`). Hae pysäkkikoodilla [Reittioppaasta](https://reittiopas.hsl.fi)
+   ja avaa pysäkki: osoiterivillä näkyy esim. `.../pysakit/HSL:1130113`.
 4. Lisää tunnukset `config/config.js`-tiedostoon kohtaan `stops`:
    ```js
    stops: [

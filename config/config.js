@@ -60,7 +60,8 @@ let config = {
 		{
 			// HSL-aikataulut: https://github.com/ZakarFin/mm-hsl-timetable
 			// Moduuli tarvitsee pysäkin tunnuksen, ei pysäkkikoodia (H1234).
-			// Tunnukset saa komennolla: scripts/hsl-pysakit.sh H3486 H3529 H4534
+			// Tunnus näkyy Reittioppaassa (https://reittiopas.hsl.fi) pysäkin
+			// osoiterivillä, esim. ".../pysakit/HSL:1130113" -> 1130113
 			module: "mm-hsl-timetable",
 			position: "middle_center",
 			header: "Lähtevät",
@@ -70,7 +71,7 @@ let config = {
 				// minutesFrom piilottaa lähdöt, joihin ei enää ehdi kävellä, esim.
 				// { id: 1234567, minutesFrom: 3 }
 				stops: [
-					// TODO: korvaa tunnuksilla, jotka hsl-pysakit.sh tulostaa
+					// TODO: lisää pysäkkien tunnukset
 					// H3486
 					// H3529
 					// H4534
