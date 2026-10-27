@@ -71,10 +71,9 @@ let config = {
 				// minutesFrom piilottaa lähdöt, joihin ei enää ehdi kävellä, esim.
 				// { id: 1234567, minutesFrom: 3 }
 				stops: [
-					// TODO: lisää pysäkkien tunnukset
-					// H3486
-					// H3529
-					// H4534
+					{ id: 1362150 }, // H3486
+					{ id: 1362103 }, // H3529
+					{ id: 1454129 } // H4534
 				]
 			}
 		},
