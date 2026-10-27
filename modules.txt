@@ -1,0 +1,8 @@
+# Lisämoduulit, jotka install.sh asentaa MagicMirror/modules-kansioon.
+# Yksi git-osoite per rivi. Rivit jotka alkavat #-merkillä ohitetaan.
+
+# HSL-aikataulut (Digitransit API)
+https://github.com/ZakarFin/mm-hsl-timetable
+
+# Liiketunnistin (PIR), sammuttaa näytön kun ketään ei ole lähellä
+https://gitlab.com/khassel/MMM-Universal-Pir

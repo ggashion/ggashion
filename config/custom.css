@@ -1,0 +1,17 @@
+/* Omat tyylit MagicMirroriin.
+ *
+ * Huom: arvoilla pitää olla yksikkö, esim. '--gap-body: 0px;' eikä '--gap-body: 0;'
+ */
+
+:root {
+	/* Pystynäytöllä hieman pienemmät reunat */
+	--gap-body-top: 40px;
+	--gap-body-right: 40px;
+	--gap-body-bottom: 40px;
+	--gap-body-left: 40px;
+}
+
+/* HSL-aikataulun rivit hieman isommalla */
+.mm-hsl-timetable .timetable {
+	font-size: 1.1em;
+}
