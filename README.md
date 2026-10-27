@@ -10,9 +10,8 @@ asentamalla käyttöjärjestelmän uudelleen ja ajamalla yhden skriptin.
 
 | Moduuli | Mitä tekee |
 | --- | --- |
-| `clock`, `weather`, `newsfeed` | Kello, sääennuste (Open-Meteo) ja Ylen uutiset (MagicMirrorin omat moduulit) |
+| `clock`, `weather`, `newsfeed` | Kello, sää ja sääennuste (Open-Meteo) sekä Ylen uutiset (MagicMirrorin omat moduulit) |
 | [mm-hsl-timetable](https://github.com/ZakarFin/mm-hsl-timetable) | HSL-lähdöt valituilta pysäkeiltä |
-| [MMM-AmbientWeather](https://github.com/hearter20176/MMM-AmbientWeather) | Oman Ambient Weather -sääaseman mittaukset |
 | [MMM-MyScoreboard](https://github.com/dathbe/MMM-MyScoreboard) | Suosikkijoukkueiden ottelutulokset |
 | [MMM-Remote-Control](https://github.com/Jopyth/MMM-Remote-Control) | Peilin ohjaus puhelimella tai selaimella |
 | [MMM-Universal-Pir](https://gitlab.com/khassel/MMM-Universal-Pir) | Sammuttaa näytön, kun lähellä ei ole liikettä |
@@ -81,26 +80,13 @@ Asennus kestää Pi 3:lla noin 15–30 minuuttia.
    ```
    `minutesFrom` piilottaa lähdöt, joihin et enää ehdi kävellä.
 
-## 4. Ambient Weather -sääasema
+## 4. Sää
 
-Moduuli näyttää oman Ambient Weather -sääasemasi tiedot, joten se vaatii
-aseman, joka on yhdistetty palveluun ambientweather.net.
-
-1. Kirjaudu osoitteessa <https://ambientweather.net> ja avaa
-   **Account → API Keys**.
-2. Luo **API Key** ja **Application Key**.
-3. Lisää ne tiedostoon `config/config.env`:
-   ```
-   AMBIENT_APIKEY=...
-   AMBIENT_APPKEY=...
-   AMBIENT_MAC=          # tarvitaan vain, jos tilillä on useampi asema
-   ```
-4. Vaihda `config.js`-tiedostoon omat koordinaatit (`latitude`/`longitude`,
-   enintään 4 desimaalia). Samat koordinaatit kannattaa laittaa myös
-   sääennusteelle (`lat`/`lon`).
-
-Moduulin oma sääennuste tulee Yhdysvaltain sääpalvelusta eikä toimi
-Suomessa. Siksi ennuste näytetään MagicMirrorin omalla `weather`-moduulilla.
+Sää tulee MagicMirrorin omalla `weather`-moduulilla palvelusta
+[Open-Meteo](https://open-meteo.com), joka ei tarvitse API-avainta.
+Vaihda `config.js`-tiedostoon molempiin `weather`-moduuleihin omat
+koordinaatit (`lat`/`lon`). Koordinaatit saat esim. Google Mapsista
+klikkaamalla karttaa hiiren oikealla.
 
 ## 5. Urheilutulokset
 

@@ -36,24 +36,14 @@ let config = {
 			}
 		},
 		{
-			// Oma sääasema: https://github.com/hearter20176/MMM-AmbientWeather
-			// Avaimet tulevat config.env-tiedostosta.
-			module: "MMM-AmbientWeather",
+			module: "weather",
 			position: "top_right",
 			config: {
-				title: "Koti",
-				apiKey: "${AMBIENT_APIKEY}",
-				applicationKey: "${AMBIENT_APPKEY}",
-				macAddress: "${AMBIENT_MAC}",
-				units: "metric",
-				// Auringonnousu/-lasku – vaihda omiin koordinaatteihin (max 4 desimaalia)
-				latitude: 60.1699,
-				longitude: 24.9384,
-				// Moduulin oma ennuste (NWS) toimii vain Yhdysvalloissa, joten
-				// ennuste tulee alla olevasta weather-moduulista.
-				showNwsForecast: false,
-				// Pi 3: ei animaatioita, jotta peili pysyy sulavana
-				performanceProfile: "pi"
+				weatherProvider: "openmeteo",
+				type: "current",
+				// Helsinki – vaihda omiin koordinaatteihin
+				lat: 60.1699,
+				lon: 24.9384
 			}
 		},
 		{
