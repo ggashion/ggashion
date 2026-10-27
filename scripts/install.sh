@@ -69,7 +69,16 @@ step "Asetukset"
 if [ ! -f "$REPO_DIR/config/config.env" ]; then
 	sed "s|^MIRROR_DIR=.*|MIRROR_DIR=$REPO_DIR|" "$REPO_DIR/config/config.env.example" \
 		> "$REPO_DIR/config/config.env"
-	echo "Luotiin $REPO_DIR/config/config.env – lisää sinne HSL_APIKEY!"
+	echo "Luotiin $REPO_DIR/config/config.env – lisää sinne API-avaimet!"
+else
+	# Lisätään mallista uudet muuttujat, joita olemassa olevassa tiedostossa ei vielä ole
+	grep -E '^[A-Z_]+=' "$REPO_DIR/config/config.env.example" | while IFS= read -r line; do
+		key="${line%%=*}"
+		if ! grep -q "^$key=" "$REPO_DIR/config/config.env"; then
+			echo "$line" >> "$REPO_DIR/config/config.env"
+			echo "Lisättiin config.env:iin uusi asetus $key"
+		fi
+	done
 fi
 for f in config.js config.env custom.css; do
 	target="$MM_DIR/config/$f"

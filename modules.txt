@@ -6,3 +6,12 @@ https://github.com/ZakarFin/mm-hsl-timetable
 
 # Liiketunnistin (PIR), sammuttaa näytön kun ketään ei ole lähellä
 https://gitlab.com/khassel/MMM-Universal-Pir
+
+# Peilin ohjaus puhelimella/selaimella: http://<pi:n-ip>:8080/remote.html
+https://github.com/Jopyth/MMM-Remote-Control
+
+# Oman Ambient Weather -sääaseman tiedot
+https://github.com/hearter20176/MMM-AmbientWeather
+
+# Urheilutulokset
+https://github.com/dathbe/MMM-MyScoreboard

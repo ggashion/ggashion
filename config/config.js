@@ -6,10 +6,13 @@
  * Dokumentaatio: https://docs.magicmirror.builders/configuration/introduction.html
  */
 let config = {
-	address: "localhost",
+	// 0.0.0.0 = peiliin pääsee myös muilta laitteilta (MMM-Remote-Control)
+	address: "0.0.0.0",
 	port: 8080,
 	basePath: "/",
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
+	// Sallitaan Pi itse ja kotiverkon laitteet (192.168.x.x).
+	// Jos kotiverkkosi osoitteet alkavat 10. tai 172., lisää ne tähän.
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.0.0/112", "192.168.0.0/16"],
 
 	language: "fi",
 	locale: "fi-FI",
@@ -33,14 +36,24 @@ let config = {
 			}
 		},
 		{
-			module: "weather",
+			// Oma sääasema: https://github.com/hearter20176/MMM-AmbientWeather
+			// Avaimet tulevat config.env-tiedostosta.
+			module: "MMM-AmbientWeather",
 			position: "top_right",
 			config: {
-				weatherProvider: "openmeteo",
-				type: "current",
-				// Helsinki – vaihda omiin koordinaatteihin
-				lat: 60.1699,
-				lon: 24.9384
+				title: "Koti",
+				apiKey: "${AMBIENT_APIKEY}",
+				applicationKey: "${AMBIENT_APPKEY}",
+				macAddress: "${AMBIENT_MAC}",
+				units: "metric",
+				// Auringonnousu/-lasku – vaihda omiin koordinaatteihin (max 4 desimaalia)
+				latitude: 60.1699,
+				longitude: 24.9384,
+				// Moduulin oma ennuste (NWS) toimii vain Yhdysvalloissa, joten
+				// ennuste tulee alla olevasta weather-moduulista.
+				showNwsForecast: false,
+				// Pi 3: ei animaatioita, jotta peili pysyy sulavana
+				performanceProfile: "pi"
 			}
 		},
 		{
@@ -72,6 +85,21 @@ let config = {
 			}
 		},
 		{
+			// Urheilutulokset: https://github.com/dathbe/MMM-MyScoreboard
+			// Liigat ja joukkuekoodit löytyvät moduulin README:stä.
+			module: "MMM-MyScoreboard",
+			position: "bottom_right",
+			header: "Tulokset",
+			config: {
+				viewStyle: "stackedWithLogos",
+				showPlayoffStatus: true,
+				sports: [
+					// Esimerkki – vaihda omiin liigoihin ja joukkueisiin
+					{ league: "NHL" }
+				]
+			}
+		},
+		{
 			module: "newsfeed",
 			position: "bottom_bar",
 			config: {
@@ -83,6 +111,24 @@ let config = {
 				],
 				showSourceTitle: true,
 				showPublishDate: true
+			}
+		},
+		{
+			// Ohjaus selaimella tai puhelimella: http://<pi:n-ip>:8080/remote.html
+			// https://github.com/Jopyth/MMM-Remote-Control
+			//
+			// HUOM: Älä käytä Remote-Controlin asetuseditoria. Se kirjoittaisi
+			// tämän tiedoston yli. Muokkaa asetuksia tässä repossa.
+			// Jos haluat osoitteen ja QR-koodin näkyviin peiliin, lisää esim.
+			// position: "bottom_left"
+			module: "MMM-Remote-Control",
+			config: {
+				// Näytön ohjaus samoilla skripteillä kuin liiketunnistimella
+				customCommand: {
+					monitorOnCommand: "${MIRROR_DIR}/scripts/screen.sh on",
+					monitorOffCommand: "${MIRROR_DIR}/scripts/screen.sh off",
+					monitorStatusCommand: "${MIRROR_DIR}/scripts/screen.sh status"
+				}
 			}
 		},
 		{

@@ -10,8 +10,11 @@ asentamalla käyttöjärjestelmän uudelleen ja ajamalla yhden skriptin.
 
 | Moduuli | Mitä tekee |
 | --- | --- |
-| `clock`, `weather`, `newsfeed` | Kello, sää (Open-Meteo) ja Ylen uutiset (MagicMirrorin omat moduulit) |
+| `clock`, `weather`, `newsfeed` | Kello, sääennuste (Open-Meteo) ja Ylen uutiset (MagicMirrorin omat moduulit) |
 | [mm-hsl-timetable](https://github.com/ZakarFin/mm-hsl-timetable) | HSL-lähdöt valituilta pysäkeiltä |
+| [MMM-AmbientWeather](https://github.com/hearter20176/MMM-AmbientWeather) | Oman Ambient Weather -sääaseman mittaukset |
+| [MMM-MyScoreboard](https://github.com/dathbe/MMM-MyScoreboard) | Suosikkijoukkueiden ottelutulokset |
+| [MMM-Remote-Control](https://github.com/Jopyth/MMM-Remote-Control) | Peilin ohjaus puhelimella tai selaimella |
 | [MMM-Universal-Pir](https://gitlab.com/khassel/MMM-Universal-Pir) | Sammuttaa näytön, kun lähellä ei ole liikettä |
 
 ## Rakenne
@@ -78,7 +81,57 @@ Asennus kestää Pi 3:lla noin 15–30 minuuttia.
    ```
    `minutesFrom` piilottaa lähdöt, joihin et enää ehdi kävellä.
 
-## 4. Pystynäyttö
+## 4. Ambient Weather -sääasema
+
+Moduuli näyttää oman Ambient Weather -sääasemasi tiedot, joten se vaatii
+aseman, joka on yhdistetty palveluun ambientweather.net.
+
+1. Kirjaudu osoitteessa <https://ambientweather.net> ja avaa
+   **Account → API Keys**.
+2. Luo **API Key** ja **Application Key**.
+3. Lisää ne tiedostoon `config/config.env`:
+   ```
+   AMBIENT_APIKEY=...
+   AMBIENT_APPKEY=...
+   AMBIENT_MAC=          # tarvitaan vain, jos tilillä on useampi asema
+   ```
+4. Vaihda `config.js`-tiedostoon omat koordinaatit (`latitude`/`longitude`,
+   enintään 4 desimaalia). Samat koordinaatit kannattaa laittaa myös
+   sääennusteelle (`lat`/`lon`).
+
+Moduulin oma sääennuste tulee Yhdysvaltain sääpalvelusta eikä toimi
+Suomessa. Siksi ennuste näytetään MagicMirrorin omalla `weather`-moduulilla.
+
+## 5. Urheilutulokset
+
+Urheilutulokset eivät tarvitse API-avainta. Valitse `config.js`-tiedostossa
+kohtaan `sports` liigat ja joukkueet. Liigojen nimet ja joukkueiden koodit löytyvät
+[moduulin README:stä](https://github.com/dathbe/MMM-MyScoreboard#available-leagues).
+
+```js
+sports: [
+	{ league: "NHL", teams: ["FLA", "NSH"] },
+	{ league: "English Premier League", teams: ["LIV"] }
+]
+```
+
+Moduuli hakee tiedot ESPN:stä, eikä Liiga tai Veikkausliiga ole mukana.
+
+## 6. Ohjaus puhelimella (Remote-Control)
+
+Avaa samassa kotiverkossa selaimella `http://<pi:n-ip-osoite>:8080/remote.html`.
+Pi:n IP-osoitteen saat komennolla `hostname -I`. Näkymän voi lisätä puhelimen
+kotinäytölle.
+
+Remote-Controlilla voi piilottaa ja näyttää moduuleja, sammuttaa näytön sekä
+käynnistää peilin tai Pi:n uudelleen.
+
+- Peiliin pääsee vain kotiverkosta (`192.168.x.x`). Jos kotiverkkosi osoitteet
+  alkavat `10.` tai `172.`, lisää ne `ipWhitelist`-listaan `config.js`:ssä.
+- **Älä käytä Remote-Controlin asetuseditoria**, koska se kirjoittaa
+  `config.js`-tiedoston yli. Muokkaa asetuksia tässä repossa.
+
+## 7. Pystynäyttö
 
 Kierto asetetaan tiedostoon `config/config.env`:
 
@@ -94,9 +147,9 @@ set -a; . ~/ggashion/config/config.env; set +a
 ```
 
 Jos näyttöä ei löydy, tarkista lähdön nimi komennolla `wlr-randr` ja päivitä
-`MM_SCREEN_OUTPUT`.
+`MM_SCREEN_OUTPUT`. Näytön tilan näet komennolla `screen.sh status`.
 
-## 5. Liiketunnistin (PIR)
+## 8. Liiketunnistin (PIR)
 
 Esim. HC-SR501-anturin kytkentä (Pi:n pinninumerot):
 

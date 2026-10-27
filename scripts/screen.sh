@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Näytön ohjaus Waylandissa (Raspberry Pi OS, labwc).
-# Käyttö: screen.sh on|off
+# Käyttö: screen.sh on|off|status   (status tulostaa true tai false)
 #
 # "on" asettaa samalla pystykierron, koska wlr-randr ei aina muista sitä
 # näytön sammuttamisen jälkeen.
@@ -19,5 +19,11 @@ fi
 case "${1:-}" in
 	on)  exec wlr-randr --output "$OUTPUT" --on --transform "$TRANSFORM" ;;
 	off) exec wlr-randr --output "$OUTPUT" --off ;;
-	*)   echo "Käyttö: $0 on|off" >&2; exit 1 ;;
+	status)
+		wlr-randr | awk -v o="$OUTPUT" '
+			$1 == o { found = 1; next }
+			/^[^ \t]/ { found = 0 }
+			found && $1 == "Enabled:" { print ($2 == "yes") ? "true" : "false"; exit }
+		' ;;
+	*)   echo "Käyttö: $0 on|off|status" >&2; exit 1 ;;
 esac
